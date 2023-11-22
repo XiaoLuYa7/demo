@@ -3,6 +3,7 @@ package com.lucloud.controller;
 import com.lucloud.entity.Test;
 import com.lucloud.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +21,14 @@ public class TestController {
     @Autowired
     private TestService testServiceImpl;
 
+    @Autowired
+    private RedisTemplate<Object,Object> redisTemplate;
+
     //获取Test
     @GetMapping("/{id}")
     @ResponseBody
     public Test getTestById(@PathVariable("id") Integer id) {
+        redisTemplate.opsForValue().set("key","value123");
         return testServiceImpl.getTestById(id);
     }
 
